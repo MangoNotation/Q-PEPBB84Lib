@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace BB84GameLib
 {
@@ -56,10 +55,20 @@ namespace BB84GameLib
         { 
             while(GameData == ServerHandler.GetUpdate())
             {
-
-                //sleep here
+                //sleep
+                double timePassed = 0;
+                DateTime initialTime = DateTime.Now;
+                while(timePassed < 500)
+                {
+                    timePassed = (DateTime.Now - initialTime).TotalMilliseconds;
+                }
             }
             GameData = ServerHandler.GetUpdate();
+            if (GameData.Contains("n"))
+            {
+                //signifies game has been reset
+                OnGameReset(new EventArgs());
+            }
             //if the game hasn't registered start - start it
             if (!GameStarted)
             {
