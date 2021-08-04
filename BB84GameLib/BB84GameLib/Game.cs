@@ -18,18 +18,13 @@ namespace BB84GameLib
 
         protected virtual void OnUpdate(EventArgs e)
         {
-            object LOCK = new object();
+            //parse the update
+            Scene.ParseUpdate(GameData);
 
-            lock (LOCK)
-            {
-                //parse the update
-                Scene.ParseUpdate(GameData);
-
-                //invoke the event, let the visualizer handle what happens with 
-                //the information
-                EventHandler handler = Update;
-                handler?.Invoke(this, e);
-            }
+            //invoke the event, let the visualizer handle what happens with 
+            //the information
+            EventHandler handler = Update;
+            handler?.Invoke(this, e);
         }
         protected virtual void OnPlayerReadied(EventArgs e)
         {
@@ -103,9 +98,9 @@ namespace BB84GameLib
             GameData = "";
         }
 
-        public void SetScene(int KeyLength)
+        public void SetScene(byte KeyLength)
         {
-
+            Scene = new Scene(KeyLength);
         }
 
         public static Game Instance = new Game();

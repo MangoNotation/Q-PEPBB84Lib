@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Net;
 using System.IO;
 using System.Collections.Specialized;
@@ -22,6 +21,11 @@ namespace BB84GameLib
         //pulls update from server
         public string GetUpdate()
         {
+            string updateURL = URL + "/update";
+
+            WR = WebRequest.Create(updateURL);
+
+            ObjStream = 
             throw new NotImplementedException();
         }
 
