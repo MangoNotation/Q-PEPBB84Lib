@@ -1,5 +1,5 @@
 ﻿using System;
-namespace BB84GameLib
+namespace BB84Core
 {
     public enum GameMode : byte
     {

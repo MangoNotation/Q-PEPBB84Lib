@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Threading;
 
-namespace BB84GameLib
+namespace BB84Core
 {
     public class Game
     {
@@ -50,13 +51,7 @@ namespace BB84GameLib
         { 
             while(GameData == ServerHandler.GetUpdate())
             {
-                //sleep
-                double timePassed = 0;
-                DateTime initialTime = DateTime.Now;
-                while(timePassed < 500)
-                {
-                    timePassed = (DateTime.Now - initialTime).TotalMilliseconds;
-                }
+                Thread.Sleep(500);
             }
             GameData = ServerHandler.GetUpdate();
             if (GameData.Contains("n"))
