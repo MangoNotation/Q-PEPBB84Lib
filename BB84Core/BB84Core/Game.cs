@@ -7,15 +7,19 @@ namespace BB84Core
     {
         string GameData;
         bool GameStarted;
+        Player HostedPlayer;
+        PlayerState[] States;
 
         ServerHandler ServerHandler;
-        Scene Scene;
+        public Scene Scene { get; private set; }
 
         //set events
         public event EventHandler Update;
         public event EventHandler PlayerReadied;
         public event EventHandler GameReset;
         public event EventHandler GameStart;
+
+        public bool[] InitialStates;
 
         protected virtual void OnUpdate(EventArgs e)
         {
@@ -38,6 +42,8 @@ namespace BB84Core
             GameData = "";
             EventHandler handler = GameReset;
             handler?.Invoke(this, e);
+
+            Instance = new Game();
         }
         protected virtual void OnGameStart(EventArgs e)
         {
@@ -68,10 +74,53 @@ namespace BB84Core
             OnUpdate(new EventArgs());
         }
 
+        //setup
+        public void InitialSetup()
+        {
+            string initialStates = ServerHandler.Initial();
+
+            if (initialStates.Contains('s'))
+            {
+                InitialStates[0] = true;
+            }
+            if (initialStates.Contains('a'))
+            {
+                States[0] = PlayerState.Remote;
+                InitialStates[1] = true;
+            }
+            if (initialStates.Contains('b'))
+            {
+                States[1] = PlayerState.Remote;
+                InitialStates[2] = true;
+            }
+            if (initialStates.Contains('e'))
+            {
+                States[2] = PlayerState.Remote;
+                InitialStates[3] = true;
+            }
+        }
+
+        //start
+        public void Start()
+        {
+            //just post the initial gamedata
+            GameData = Scene.BuildUpdate();
+
+            if(States[0] == PlayerState.Hosted)
+            {
+                //play turn
+            }
+            else
+            {
+                //post a blank update
+                ServerHandler.PostUpdate(GameData);
+            }
+        }
+
         public void Ready()
         {
-            //post ready to server
-            ServerHandler.Ready();
+            //post ready to server for player hosted
+            ServerHandler.Ready(HostedPlayer);
 
             //begin update loop
             GetUpdate();
@@ -86,10 +135,21 @@ namespace BB84Core
             GetUpdate();
         }
 
+        //reset the game
+        public void Reset()
+        {
+            ServerHandler.Reset();
+        }
+
         private Game()
         {
             ServerHandler = new ServerHandler("include url here");
             GameStarted = false;
+            InitialStates = new bool[4];
+            for (int i = 0; i < InitialStates.Length; i++)
+                InitialStates[i] = false;
+            States = new PlayerState[3];
+
             GameData = "";
         }
 

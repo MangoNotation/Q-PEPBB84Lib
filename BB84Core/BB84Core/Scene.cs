@@ -16,6 +16,13 @@ namespace BB84Core
         Eve
     }
 
+    public enum PlayerState : byte
+    {
+        Hosted, //played actively on this computer
+        Auto, //played auto by this computer
+        Remote //hosted by another player
+    }
+
     public class Scene
     {
         public byte Keylength { get; private set; }
@@ -35,6 +42,12 @@ namespace BB84Core
         //bases selection update structure
         //Turn Number, Player, Alice/Bob/Eve Bases
         //Alice/Bob/Eve Qubits
+
+        //set the game mode
+        public void SetGameMode(GameMode mode)
+        {
+            GameMode = mode;
+        }
 
         public Scene(byte keylength)
         {
@@ -56,6 +69,8 @@ namespace BB84Core
 
         public void ParseUpdate(string update)
         {
+
+
             //alice bob eve is always the order
             string[] splitUpdate = update.Split('.');
             TurnNumber = byte.Parse(splitUpdate[0]);

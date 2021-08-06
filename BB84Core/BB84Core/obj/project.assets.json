@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\isaia\\source\\repos\\BB84Core\\BB84Core\\BB84Core.csproj",
+      "projectUniqueName": "C:\\Users\\isaia\\OneDrive\\Documents\\GitHub\\Q-PEPBB84Lib\\BB84Core\\BB84Core\\BB84Core.csproj",
       "projectName": "BB84Core",
-      "projectPath": "C:\\Users\\isaia\\source\\repos\\BB84Core\\BB84Core\\BB84Core.csproj",
+      "projectPath": "C:\\Users\\isaia\\OneDrive\\Documents\\GitHub\\Q-PEPBB84Lib\\BB84Core\\BB84Core\\BB84Core.csproj",
       "packagesPath": "C:\\Users\\isaia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\isaia\\source\\repos\\BB84Core\\BB84Core\\obj\\",
+      "outputPath": "C:\\Users\\isaia\\OneDrive\\Documents\\GitHub\\Q-PEPBB84Lib\\BB84Core\\BB84Core\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\isaia\\AppData\\Roaming\\NuGet\\NuGet.Config",

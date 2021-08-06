@@ -66,23 +66,48 @@ namespace BB84Core
         //gets player states
         public string PlayerStates()
         {
-            throw new NotImplementedException();
+            //gets whether players are ready to play
+            string states = URL + "/playerstates";
+            WR = WebRequest.Create(states);
+            ObjStream = WR.GetResponse().GetResponseStream();
+            Reader = new StreamReader(ObjStream);
+
+            return Reader.ReadLine();
         }
 
         //get/post keylength
         public string GetKeyLength()
         {
-            throw new NotImplementedException();
+            string keyURL = URL + "/keylength";
+            WR = WebRequest.Create(keyURL);
+            ObjStream = WR.GetResponse().GetResponseStream();
+            Reader = new StreamReader(ObjStream);
+
+            return Reader.ReadLine();
         }
-        public string PostKeyLength()
+
+        public string PostKeyLength(byte keylength)
         {
-            throw new NotImplementedException();
+            using(var wb = new WebClient())
+            {
+                NameValueCollection data = new NameValueCollection();
+
+                data["keylength"] = keylength.ToString();
+
+                var response = wb.UploadValues(URL + "/keylength", "POST", data);
+                return Encoding.UTF8.GetString(response);
+            }
         }
 
         //requests start state from server
         public string Initial()
         {
-            throw new NotImplementedException();
+            string startURL = URL + "/start";
+            WR = WebRequest.Create(startURL);
+            ObjStream = WR.GetResponse().GetResponseStream();
+            Reader = new StreamReader(ObjStream);
+
+            return Reader.ReadLine();
         }
 
         //readys player if player is not host
@@ -113,7 +138,18 @@ namespace BB84Core
         //starts game
         public string Start()
         {
-            throw new NotImplementedException();
+            string startURL = URL + "/start";
+            WR = WebRequest.Create(startURL);
+            ObjStream = WR.GetResponse().GetResponseStream();
+            Reader = new StreamReader(ObjStream);
+            
+            return Reader.ReadLine();
+        }
+
+        //reset the game
+        public void Reset()
+        {
+            PostUpdate("n");
         }
     }
 }
