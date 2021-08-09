@@ -7,8 +7,8 @@ namespace BB84Core
     {
         string GameData;
         bool GameStarted;
-        Player HostedPlayer;
-        PlayerState[] States;
+        public Player HostedPlayer { get; private set; }
+        public PlayerState[] States { get; private set; }
 
         ServerHandler ServerHandler;
         public Scene Scene { get; private set; }
@@ -188,15 +188,15 @@ namespace BB84Core
         {
             string states = ServerHandler.PlayerStates();
 
-            if (states.Contains('a'))
+            if (states.Contains('a') && HostedPlayer != Player.Alice)
             {
                 States[0] = PlayerState.Remote;
             }
-            if (states.Contains('b'))
+            if (states.Contains('b') && HostedPlayer != Player.Bob)
             {
                 States[1] = PlayerState.Remote;
             }
-            if (states.Contains('e'))
+            if (states.Contains('e') && HostedPlayer != Player.Eve)
             {
                 States[2] = PlayerState.Remote;
             }
@@ -206,6 +206,17 @@ namespace BB84Core
         public void PostKeyLength(byte length)
         {
             ServerHandler.PostKeyLength(length);
+        }
+
+        //get Keylength
+        public byte GetKeyLength()
+        {
+            while (ServerHandler.GetKeyLength() == "")
+            {
+                Thread.Sleep(250);
+            }
+
+            return byte.Parse(ServerHandler.GetKeyLength());
         }
 
         private Game()

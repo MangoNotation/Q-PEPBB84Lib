@@ -1,0 +1,9 @@
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\bin\Debug\netcoreapp3.1\BB84Core.deps.json
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\bin\Debug\netcoreapp3.1\BB84Core.dll
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\bin\Debug\netcoreapp3.1\BB84Core.pdb
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\obj\Debug\netcoreapp3.1\BB84Core.csproj.AssemblyReference.cache
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\obj\Debug\netcoreapp3.1\BB84Core.AssemblyInfoInputs.cache
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\obj\Debug\netcoreapp3.1\BB84Core.AssemblyInfo.cs
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\obj\Debug\netcoreapp3.1\BB84Core.csproj.CoreCompileInputs.cache
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\obj\Debug\netcoreapp3.1\BB84Core.dll
+D:\QPEP\Q-PEPBB84Lib\BB84Core\BB84Core\obj\Debug\netcoreapp3.1\BB84Core.pdb
