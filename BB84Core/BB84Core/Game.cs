@@ -63,7 +63,7 @@ namespace BB84Core
             if (GameData.Contains("n"))
             {
                 //signifies game has been reset
-                OnGameReset(new EventArgs());
+                Reset();
             }
             //if the game hasn't registered start - start it
             if (!GameStarted)
@@ -71,6 +71,7 @@ namespace BB84Core
                 OnGameStart(new EventArgs());
                 GameStarted = true;
             }
+
             OnUpdate(new EventArgs());
         }
 
@@ -101,26 +102,52 @@ namespace BB84Core
         }
 
         //start
-        public void Start()
+        public bool Start()
         {
             //just post the initial gamedata
             GameData = Scene.BuildUpdate();
 
+            if (InitialStates[0])
+            {
+                Refresh();
+
+                for (int i = 0; i < States.Length; i++)
+                {
+                    States[i] = States[i] == PlayerState.Unassigned ? PlayerState.Auto : States[i];
+                }
+            }
+
+
             if(States[0] == PlayerState.Hosted)
             {
-                //play turn
+                return true;
             }
             else
             {
                 //post a blank update
                 ServerHandler.PostUpdate(GameData);
+                return false;
             }
         }
 
+        //Play Character
+        public bool PlayCharacter(Player player)
+        {
+            bool ret = ServerHandler.RequestPlayer(player).Contains('n');
+            States[(byte)player] = ret ? PlayerState.Hosted : PlayerState.Remote;
+            if (ret)
+            {
+                HostedPlayer = player;
+            }
+            return ret;
+        }
+
+        //
         public void Ready()
         {
             //post ready to server for player hosted
             ServerHandler.Ready(HostedPlayer);
+            Refresh();
 
             //begin update loop
             GetUpdate();
@@ -132,23 +159,65 @@ namespace BB84Core
             //post gamedata to server
             ServerHandler.PostUpdate(GameData);
             //continue update loop
-            GetUpdate();
+
+            if (ServerHandler.GetUpdate().Contains('n'))
+            {
+                Reset();
+            }
+            else
+            {
+                GetUpdate();
+            }
         }
 
         //reset the game
         public void Reset()
         {
             ServerHandler.Reset();
+            OnGameReset(new EventArgs());
+        }
+
+        //input the next step
+        public void NextStep(bool basis)
+        {
+            Scene.NextPlayer(basis);
+        }
+
+        //refresh
+        public void Refresh()
+        {
+            string states = ServerHandler.PlayerStates();
+
+            if (states.Contains('a'))
+            {
+                States[0] = PlayerState.Remote;
+            }
+            if (states.Contains('b'))
+            {
+                States[1] = PlayerState.Remote;
+            }
+            if (states.Contains('e'))
+            {
+                States[2] = PlayerState.Remote;
+            }
+        }
+
+        //post keylength
+        public void PostKeyLength(byte length)
+        {
+            ServerHandler.PostKeyLength(length);
         }
 
         private Game()
         {
-            ServerHandler = new ServerHandler("include url here");
+            ServerHandler = new ServerHandler("http://23.254.165.102");
             GameStarted = false;
             InitialStates = new bool[4];
             for (int i = 0; i < InitialStates.Length; i++)
                 InitialStates[i] = false;
             States = new PlayerState[3];
+            for (int i = 0; i < States.Length; i++)
+                States[i] = PlayerState.Unassigned;
 
             GameData = "";
         }

@@ -36,7 +36,7 @@ namespace BB84Core
             {
                 NameValueCollection data = new NameValueCollection();
                 data["udpate"] = update;
-                var response = wb.UploadValues(URL + "/statuschange", "POST", data);
+                var response = wb.UploadValues(URL + "/update", "POST", data);
                 return Encoding.UTF8.GetString(response);
             }
         }
@@ -102,7 +102,7 @@ namespace BB84Core
         //requests start state from server
         public string Initial()
         {
-            string startURL = URL + "/start";
+            string startURL = URL + "/init";
             WR = WebRequest.Create(startURL);
             ObjStream = WR.GetResponse().GetResponseStream();
             Reader = new StreamReader(ObjStream);
